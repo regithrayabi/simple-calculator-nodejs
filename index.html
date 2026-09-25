@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalkulator Sederhana</title>
+    <!-- Tailwind CSS untuk styling responsif & modern -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom font & styling tambahan */
+      body {
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      .btn-press:active {
+        transform: scale(0.95);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-900 min-h-screen flex items-center justify-center p-4 select-none"
+  >
+    <div
+      class="bg-slate-800 p-6 rounded-3xl shadow-2xl w-full max-w-xs sm:max-w-sm border border-slate-700"
+    >
+      <!-- Header / Judul -->
+      <div
+        class="text-slate-400 text-xs font-semibold tracking-wider uppercase mb-3 text-center"
+      >
+        Kalkulator Modern
+      </div>
+
+      <!-- Display Kalkulator -->
+      <div
+        class="bg-slate-950 p-4 rounded-2xl mb-5 border border-slate-800 text-right overflow-hidden shadow-inner"
+      >
+        <!-- Riwayat Ekspresi -->
+        <div
+          id="expressionDisplay"
+          class="text-slate-400 text-sm h-6 overflow-x-auto whitespace-nowrap scrollbar-none font-mono"
+        ></div>
+        <!-- Hasil / Input Utama -->
+        <div
+          id="mainDisplay"
+          class="text-white text-3xl sm:text-4xl font-bold font-mono truncate h-10"
+        >
+          0
+        </div>
+      </div>
+
+      <div class="grid grid-cols-4 gap-3">
+        <!-- Baris 1: Fitur Kontrol -->
+        <button
+          onclick="handleClear()"
+          class="btn-press bg-red-500/20 text-red-400 hover:bg-red-500/30 font-semibold p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          C
+        </button>
+        <button
+          onclick="handleBackspace()"
+          class="btn-press bg-slate-700/50 text-slate-300 hover:bg-slate-700 font-semibold p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          ⌫
+        </button>
+        <button
+          onclick="handleOperator('/')"
+          class="btn-press bg-indigo-600/30 text-indigo-400 hover:bg-indigo-600/40 font-bold p-4 rounded-2xl transition duration-150 text-xl"
+        >
+          ÷
+        </button>
+        <button
+          onclick="handleOperator('*')"
+          class="btn-press bg-indigo-600/30 text-indigo-400 hover:bg-indigo-600/40 font-bold p-4 rounded-2xl transition duration-150 text-xl"
+        >
+          ×
+        </button>
+
+        <!-- Baris 2: Angka 7-9 & Operator Kurang -->
+        <button
+          onclick="handleNumber('7')"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          7
+        </button>
+        <button
+          onclick="handleNumber('8')"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          8
+        </button>
+        <button
+          onclick="handleNumber('9')"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          9
+        </button>
+        <button
+          onclick="handleOperator('-')"
+          class="btn-press bg-indigo-600/30 text-indigo-400 hover:bg-indigo-600/40 font-bold p-4 rounded-2xl transition duration-150 text-xl"
+        >
+          −
+        </button>
+
+        <!-- Baris 3: Angka 4-6 & Operator Tambah -->
+        <button
+          onclick="handleNumber('4')"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          4
+        </button>
+        <button
+          onclick="handleNumber('5')"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          5
+        </button>
+        <button
+          onclick="handleNumber('6')"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          6
+        </button>
+        <button
+          onclick="handleOperator('+')"
+          class="btn-press bg-indigo-600/30 text-indigo-400 hover:bg-indigo-600/40 font-bold p-4 rounded-2xl transition duration-150 text-xl"
+        >
+          +
+        </button>
+
+        <!-- Baris 4: Angka 1-3 & Tombol Sama Dengan (Span 2 Baris) -->
+        <button
+          onclick="handleNumber('1')"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          1
+        </button>
+        <button
+          onclick="handleNumber('2')"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          2
+        </button>
+        <button
+          onclick="handleNumber('3')"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          3
+        </button>
+        <button
+          onclick="handleCalculate()"
+          class="btn-press bg-indigo-600 text-white hover:bg-indigo-500 font-bold p-4 rounded-2xl transition duration-150 text-xl row-span-2 flex items-center justify-center shadow-lg shadow-indigo-600/30"
+        >
+          =
+        </button>
+
+        <!-- Baris 5: Angka 0 & Desimal -->
+        <button
+          onclick="handleNumber('0')"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg col-span-2"
+        >
+          0
+        </button>
+        <button
+          onclick="handleDecimal()"
+          class="btn-press bg-slate-700 text-white hover:bg-slate-600 font-medium p-4 rounded-2xl transition duration-150 text-lg"
+        >
+          .
+        </button>
+      </div>
+    </div>
+
+    <script src="calculator.js"></script>
+  </body>
+</html>
