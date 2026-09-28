@@ -1,4 +1,2 @@
-100% COMBO PECUT AI
-
-by regith rayabi
-test
+PlatformBasedProgramming_Session1_RegithRayabi
+link:https://github.com/regithrayabi/simple-calculator-nodejs
